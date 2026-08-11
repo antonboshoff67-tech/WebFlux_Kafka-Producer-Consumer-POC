@@ -2,6 +2,28 @@
 
 This document explains how to run the backend in AWS using Amazon EKS.
 
+## Interview-friendly quick start
+
+Use this if you want the shortest possible deploy story:
+
+```powershell
+aws configure
+eksctl create cluster --name item-kafka-eks --region af-south-1 --version 1.29 --nodegroup-name workers --node-type t3.large --nodes 2 --nodes-min 2 --nodes-max 6
+aws ecr create-repository --repository-name webflux-kafka-backend --region af-south-1
+docker build -t webflux-kafka-backend:latest .
+docker tag webflux-kafka-backend:latest 123456789012.dkr.ecr.af-south-1.amazonaws.com/webflux-kafka-backend:latest
+docker push 123456789012.dkr.ecr.af-south-1.amazonaws.com/webflux-kafka-backend:latest
+kubectl apply -f k8s/namespace.yaml
+kubectl apply -f k8s/backend-configmap.yaml
+kubectl apply -f k8s/backend-secret.example.yaml
+kubectl apply -f k8s/backend-deployment.yaml
+kubectl apply -f k8s/backend-service.yaml
+kubectl apply -f k8s/backend-hpa.yaml
+kubectl get pods -n webflux-kafka-poc
+```
+
+The rest of this file explains the same flow in a developer-friendly, step-by-step way.
+
 ## What this mode is for
 
 Use EKS when you need:
@@ -126,5 +148,3 @@ ECS/Fargate quick start pattern:
 3. Create ECS service (Fargate launch type) behind an ALB.
 
 Both are valid; EKS manifests in this repo target Kubernetes.
-
-
