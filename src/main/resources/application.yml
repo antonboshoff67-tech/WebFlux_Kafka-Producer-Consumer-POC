@@ -1,0 +1,116 @@
+server:
+  port: 8082
+
+# Origins allowed to call this API directly from a browser (CORS).
+cors:
+  allowed-origins: ${ITEM_CORS_ALLOWED_ORIGINS:http://localhost:5173,http://localhost:3000}
+
+keys:
+  ssl:
+    enabled: false
+    keyStore: ${ITEM_SSL_KEYSTORE:/opt/apps/.secure/scc-hybrid-chat-dev.antontech.co.za.jks}
+    keyStorePassword: ${ITEM_SSL_KEYSTORE_PASSWORD:change-me}
+    trustStore: ${ITEM_SSL_TRUSTSTORE:/opt/apps/.secure/cacerts}
+    trustStorePassword: ${ITEM_SSL_TRUSTSTORE_PASSWORD:changeit}
+
+spring:
+  application:
+    name: webflux-kafka-poc
+  profiles:
+    active: dev
+
+  # ─── R2DBC (Reactive DB) ─────────────────────────────────────────────────────
+  # R2DBC replaces spring.datasource (JDBC) for all application queries.
+  # The URL format differs from JDBC: r2dbc:mysql://host:port/database
+  r2dbc:
+    url: ${ITEM_R2DBC_URL:r2dbc:mysql://localhost:3306/item_poc_source?useSSL=false&allowPublicKeyRetrieval=true}
+    username: ${ITEM_MSSQL_USERNAME:root}
+    password: ${ITEM_MSSQL_PASSWORD:change-me}
+
+  # ─── Classic JDBC datasource (still needed for Flink JDBC connector) ─────────
+  datasource:
+    url: ${ITEM_MSSQL_URL:jdbc:mysql://localhost:3306/item_poc_source?useSSL=false&allowPublicKeyRetrieval=true}
+    driver-class-name: ${ITEM_DATASOURCE_DRIVER:com.mysql.cj.jdbc.Driver}
+    username: ${ITEM_MSSQL_USERNAME:root}
+    password: ${ITEM_MSSQL_PASSWORD:change-me}
+    source-table-name: ${ITEM_MSSQL_SOURCE_TABLE:ITEM}
+
+  # ─── MySQL sink (for Flink Job 2: Kafka → MySQL) ──────────────────────────────
+  mysql:
+    jdbcUrl: ${ITEM_MYSQL_URL:jdbc:mysql://localhost:3306/item_poc?useSSL=false&allowPublicKeyRetrieval=true}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${ITEM_MYSQL_USERNAME:root}
+    password: ${ITEM_MYSQL_PASSWORD:change-me}
+    item-table-name: ${ITEM_MYSQL_TABLE:ITEM}
+
+  # ─── Kafka ───────────────────────────────────────────────────────────────────
+  kafka:
+    bootstrap-servers: ${ITEM_KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    item-topic-name: ${ITEM_KAFKA_TOPIC:Item_Topic}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      properties:
+        request.timeout.ms: 120000
+        retries: 3
+    consumer:
+      group-id: item_group
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      auto-offset-reset: earliest
+      max-poll-interval-ms: 300000
+      session-timeout-ms: 45000
+
+  # ─── R2DBC auto-config ────────────────────────────────────────────────────────
+  data:
+    r2dbc:
+      repositories:
+        enabled: true
+
+# ─── Flink ────────────────────────────────────────────────────────────────────
+flink:
+  jobmanager:
+    rpc:
+      address: localhost
+    memory:
+      heap.size: 2048m
+      process.size: 2048m
+  taskmanager:
+    memory:
+      heap.size: 2048m
+      process.size: 2048m
+    numberOfTaskSlots: 2
+  parallelism:
+    default: 2
+  metrics:
+    enabled: false
+
+# ─── Gateway ──────────────────────────────────────────────────────────────────
+gateway:
+  endpoint:
+    url: ${ITEM_GATEWAY_URL:http://localhost:8082/item-kafka/app/send-items/v1}
+
+# ─── JWT ──────────────────────────────────────────────────────────────────────
+jwt:
+  private-key: ${ITEM_JWT_PRIVATE_KEY:}
+  issuer: ${ITEM_JWT_ISSUER:webflux-kafka-producer}
+  expiry-minutes: ${ITEM_JWT_EXPIRY_MINUTES:30}
+
+# ─── OpenAPI / Swagger UI ─────────────────────────────────────────────────────
+springdoc:
+  swagger-ui:
+    path: /agent/swagger-ui.html
+  api-docs:
+    path: /v3/api-docs
+
+# ─── Logging ──────────────────────────────────────────────────────────────────
+logging:
+  file:
+    name: logs/${spring.application.name}_${LOG_DATEFORMAT_PATTERN:yyyy-MM-dd}.log
+  level:
+    root: INFO
+    com.antontech.webflux_kafka: INFO
+    reactor.kafka: INFO
+    io.r2dbc: INFO
+    org.springframework.r2dbc: INFO
+

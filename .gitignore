@@ -1,0 +1,46 @@
+HELP.md
+
+# Maven build output
+target/
+
+# Maven wrapper
+!.mvn/wrapper/maven-wrapper.jar
+
+# IDEs
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# Spring Tool Suite
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+
+# VS Code
+.vscode/
+
+# Logs
+logs/
+*.log
+
+# Word lock file created while Architecture_ConfluentCloud_Kafka_POC.docx is open
+~$*.docx
+
+# docs-tools: local scratch workspace used to build the architecture .docx
+# (mermaid-cli, rendered diagram sources/images, node_modules). Only the
+# final Architecture_ConfluentCloud_Kafka_POC.docx at the repo root is committed.
+docs-tools/
+
