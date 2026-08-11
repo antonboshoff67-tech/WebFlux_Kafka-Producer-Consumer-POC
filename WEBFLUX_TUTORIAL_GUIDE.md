@@ -10,6 +10,8 @@ Use it when you want to learn:
 - how to run the project manually, with Docker, and on AWS EKS,
 - and how each class in this codebase fits together.
 
+If you want a more interview-style answer sheet with code excerpts and comparison tables, also read `WEBFLUX_INTERVIEW_SHEET.md`.
+
 ---
 
 ## 1) Quick start: how to run the project from scratch
