@@ -176,7 +176,7 @@ aws rds create-db-instance `
 
 ```powershell
 # Clone backend repo (if not in current directory)
-git clone https://github.com/antonboshoff67-tech/item-kafka-producer-poc backend
+git clone https://github.com/antonboshoff67-tech/WebFlux_Kafka-Producer-Consumer-POC backend
 cd backend
 
 # Build Docker image

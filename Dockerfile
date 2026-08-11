@@ -1,9 +1,9 @@
 # ---------------------------------------------------------------------------
-# Multi-stage build for item-kafka-producer-poc.
+# Multi-stage build for webflux-kafka-poc.
 # Stage 1 compiles the Spring Boot application with Maven.
 # Stage 2 runs the resulting jar on a minimal JRE image.
 # ---------------------------------------------------------------------------
-FROM maven:3.9-eclipse-temurin-11 AS build
+FROM maven:3.9-eclipse-temurin-17 AS build
 WORKDIR /build
 # Cache dependencies separately from source changes for faster rebuilds.
 COPY pom.xml .
@@ -11,9 +11,9 @@ RUN mvn -q -B dependency:go-offline
 COPY src ./src
 RUN mvn -q -B clean package -DskipTests
 
-FROM eclipse-temurin:11-jre-jammy
+FROM eclipse-temurin:17-jre-jammy
 WORKDIR /app
-COPY --from=build /build/target/item-kafka-producer-poc-*.jar app.jar
+COPY --from=build /build/target/webflux-kafka-poc-*.jar app.jar
 COPY src/main/resources/application.yml /app/application.yml
 
 EXPOSE 8082

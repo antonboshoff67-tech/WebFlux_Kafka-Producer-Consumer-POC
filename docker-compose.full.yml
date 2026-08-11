@@ -1,5 +1,5 @@
 # ---------------------------------------------------------------------------
-# Full stack: MySQL + Kafka (KRaft) + the item-kafka-producer-poc backend,
+# Full stack: MySQL + Kafka (KRaft) + the webflux-kafka-poc backend,
 # all in Docker. See DEVELOPER_GUIDE.md, "Running everything in Docker" for a
 # full step-by-step walkthrough (including how to seed the databases and how
 # to test each endpoint).
@@ -17,7 +17,7 @@ services:
     restart: unless-stopped
     # Linux MySQL defaults to case-SENSITIVE table names (lower_case_table_names=0),
     # unlike Windows (case-insensitive by default). Force case-insensitive
-    # comparison here so Hibernate's lowercased "item" and the seed scripts'
+    # comparison here so lowercased "item" and the seed scripts'
     # uppercase "ITEM" always refer to the same table, matching native/Windows
     # behaviour and avoiding a silent "empty table" surprise on Linux hosts/CI.
     command: --lower-case-table-names=1

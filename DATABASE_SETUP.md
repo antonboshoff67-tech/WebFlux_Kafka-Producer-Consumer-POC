@@ -2,7 +2,7 @@
 
 This project touches **two** databases:
 
-1. **Source** - the original `ITEM` master-data table, read by `ItemRepository` (JPA) and by the Flink `MssqlItemToKafkaJob`. In the original corporate environment this was MS SQL Server, reached with **Windows Integrated Authentication**.
+1. **Source** - the original `ITEM` master-data table, read by `ItemRepository` (reactive R2DBC path) and by the Flink `MssqlItemToKafkaJob` (JDBC path). In the original corporate environment this was MS SQL Server, reached with **Windows Integrated Authentication**.
 2. **Sink** - the MySQL `ITEM` table written to by the Flink `KafkaItemToMysqlJob`.
 
 You can run this demo three ways:
@@ -10,7 +10,7 @@ You can run this demo three ways:
 - **MySQL-only:** use MySQL for both source and sink (simplest for anyone who doesn't have SQL Server available).
 - **Sink-only:** skip the source table/`MssqlItemToKafkaJob` entirely and just publish sample `Item` JSON straight onto Kafka to exercise `KafkaItemToMysqlJob`.
 
-Both full DDL scripts (SQL Server and MySQL) are below, generated directly from the column mappings in `src/main/java/com/antontech/itemkafka_poc/model/Item.java`.
+Both full DDL scripts (SQL Server and MySQL) are below, generated directly from the column mappings in `src/main/java/com/antontech/webflux_kafka/model/Item.java`.
 
 ### Ready-to-run seed scripts
 
@@ -205,7 +205,7 @@ ITEM_MSSQL_URL=jdbc:sqlserver://localhost:1433;databaseName=ItemPoc;integratedSe
 
 ## 2. MySQL alternative for the source table (no SQL Server needed)
 
-If you don't have SQL Server available, point `spring.datasource` at MySQL instead and let Hibernate/JPA talk to MySQL for the "source" side too. You'd need to also swap the `spring.datasource.driver-class-name` to `com.mysql.cj.jdbc.Driver` and use a MySQL JDBC URL for `ITEM_MSSQL_URL` (the property name is historical; it is just "the datasource URL" underneath). This keeps `ItemProducerController` / `ItemRepository` fully working without SQL Server.
+If you don't have SQL Server available, point the **reactive source** to MySQL instead by setting `ITEM_R2DBC_URL` to your MySQL source database. Keep `ITEM_MSSQL_URL` for Flink Job 1 only if you still want to run the SQL Server -> Kafka path; otherwise you can skip Job 1 and use the MySQL source + reactive producer endpoints.
 
 ```sql
 CREATE DATABASE IF NOT EXISTS item_poc_source CHARACTER SET utf8mb4;
@@ -433,7 +433,7 @@ FLUSH PRIVILEGES;
 
 | Table | Database | Read/written by |
 |---|---|---|
-| `ITEM` (source) | SQL Server (or MySQL alternative, section 2) | `ItemRepository` / JPA (`ItemProducerController`), `MssqlItemToKafkaJob` |
+| `ITEM` (source) | SQL Server (or MySQL alternative, section 2) | `ItemRepository` / R2DBC (`ItemProducerController`), `MssqlItemToKafkaJob` |
 | `ITEM` (sink) | MySQL (section 3) | `KafkaItemToMysqlJob` only |
 
 They can be the *same* physical MySQL database/table if you only care about a simple end-to-end MySQL-to-MySQL demo, but keeping them separate (as shown above, `item_poc_source` vs `item_poc`) more faithfully mirrors the original two-database architecture and avoids the source and sink jobs racing each other on the same rows.

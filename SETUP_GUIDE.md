@@ -11,7 +11,7 @@ project does, see `README.md`. For endpoint-by-endpoint usage, see
 
 | Tool | Version used in this POC | Notes |
 |---|---|---|
-| JDK | 11+ (tested on JDK 21 runtime, `<release>11</release>` bytecode target) | `java -version` |
+| JDK | 17+ (tested on JDK 21 runtime, `<release>17</release>` bytecode target) | `java -version` |
 | Maven | 3.8+ | Or use the wrapper `./mvnw` if `.mvn/wrapper` is present |
 | Apache Kafka | 3.x | Local single-broker cluster is enough for a demo |
 | MySQL | 8.0+ | Sink database for the Flink `KafkaItemToMysqlJob` |
@@ -21,8 +21,8 @@ project does, see `README.md`. For endpoint-by-endpoint usage, see
 ## 2. Clone and build
 
 ```powershell
-git clone <your-fork-url> item-kafka-producer-poc
-cd item-kafka-producer-poc
+git clone <your-fork-url> WebFlux_Kafka-Producer-Consumer-POC
+cd WebFlux_Kafka-Producer-Consumer-POC
 mvn -q compile
 ```
 
@@ -37,7 +37,7 @@ environment variable before starting the app to override the default.
 |---|---|---|---|
 | `ITEM_KAFKA_BOOTSTRAP_SERVERS` | `spring.kafka.bootstrap-servers` | `KafkaProperties` | Kafka broker address(es) for the producer, consumer and both Flink jobs |
 | `ITEM_KAFKA_TOPIC` | `spring.kafka.item-topic-name` | `KafkaProperties` | Shared Kafka topic name (default `Item_Topic`) |
-| `ITEM_MSSQL_URL` | `spring.datasource.url` | `MSSQLDataSourceProperties` (and Spring `DataSource` autoconfig) | Source SQL Server JDBC connection string read by `ItemRepository`/JPA and by `MssqlItemToKafkaJob`. Can use `integratedSecurity=true` for Windows Integrated Authentication - see `DATABASE_SETUP.md` section 1.1 for exactly how that works and what it requires |
+| `ITEM_MSSQL_URL` | `spring.datasource.url` | `MSSQLDataSourceProperties` (and Spring `DataSource` autoconfig) | Source SQL Server JDBC connection string used by `MssqlItemToKafkaJob` (JDBC path). Can use `integratedSecurity=true` for Windows Integrated Authentication - see `DATABASE_SETUP.md` section 1.1 for exactly how that works and what it requires |
 | `ITEM_MSSQL_SOURCE_TABLE` | `spring.datasource.source-table-name` | `MSSQLDataSourceProperties` | Source table name for `MssqlItemToKafkaJob` (default `ITEM`) |
 | `ITEM_MYSQL_URL` | `spring.mysql.jdbcUrl` | `MySqlProperties` | MySQL JDBC URL for the Flink `KafkaItemToMysqlJob` sink |
 | `ITEM_MYSQL_USERNAME` | `spring.mysql.username` | `MySqlProperties` | MySQL username |
@@ -124,9 +124,9 @@ Integrated Authentication works and how to grant your Windows account
 access) and MySQL (source alternative + sink) are in **`DATABASE_SETUP.md`**.
 Short version:
 
-- **Source** (`ITEM` table read by `ItemRepository`/JPA and `MssqlItemToKafkaJob`): SQL Server DDL in `DATABASE_SETUP.md` section 1, or use the MySQL alternative in section 2 if you don't have SQL Server.
+- **Source** (`ITEM` table read by `ItemRepository`/R2DBC and `MssqlItemToKafkaJob`): SQL Server DDL in `DATABASE_SETUP.md` section 1, or use the MySQL alternative in section 2 if you don't have SQL Server.
 - **Sink** (`ITEM` table written by `KafkaItemToMysqlJob`): MySQL DDL in `DATABASE_SETUP.md` section 3.
-- Fastest path if you just want *something* running: let Hibernate auto-create the source table (`spring.jpa.hibernate.ddl-auto: update`, already the default) against any reachable database, then seed a few rows manually.
+- Fastest path if you just want *something* running: run the provided MySQL seed scripts in `sql-scripts/` (`02_mysql_item_source_seed_200.sql` and `03_mysql_item_sink_and_consumed_tables.sql`) and point `ITEM_R2DBC_URL` / `ITEM_MYSQL_URL` at those databases.
 
 ## 7. Kafka setup and topic creation
 

@@ -1,5 +1,5 @@
 # Local Kafka broker (KRaft mode, no Zookeeper needed) for
-# ConfluentCloud_Kafka-Producer-Consumer-POC. This is a convenience file for local
+# WebFlux_Kafka-Producer-Consumer-POC. This is a convenience file for local
 # development/testing only - not required if you already have Kafka installed
 # (see KAFKA_SETUP.md for the manual install instructions).
 #
