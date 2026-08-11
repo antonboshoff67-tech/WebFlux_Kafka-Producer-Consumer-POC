@@ -53,7 +53,7 @@ kubectl cluster-info
 ```powershell
 # Backend repository
 aws ecr create-repository `
-  --repository-name item-kafka-backend `
+  --repository-name webflux-kafka-backend `
   --region af-south-1
 
 # Frontend repository
@@ -180,17 +180,17 @@ git clone https://github.com/antonboshoff67-tech/WebFlux_Kafka-Producer-Consumer
 cd backend
 
 # Build Docker image
-docker build -t item-kafka-backend:latest .
+docker build -t webflux-kafka-backend:latest .
 
 # Tag for ECR
-docker tag item-kafka-backend:latest $ECR_REGISTRY/item-kafka-backend:latest
+docker tag webflux-kafka-backend:latest $ECR_REGISTRY/webflux-kafka-backend:latest
 
 # Login to ECR
 aws ecr get-login-password --region $AWS_REGION | `
   docker login --username AWS --password-stdin $ECR_REGISTRY
 
 # Push
-docker push $ECR_REGISTRY/item-kafka-backend:latest
+docker push $ECR_REGISTRY/webflux-kafka-backend:latest
 ```
 
 ### 2.2 Frontend Docker Image
@@ -218,7 +218,7 @@ cd ./k8s
 
 # Edit backend-deployment.yaml
 # Change image line to:
-# image: 123456789012.dkr.ecr.af-south-1.amazonaws.com/item-kafka-backend:latest
+# image: 123456789012.dkr.ecr.af-south-1.amazonaws.com/webflux-kafka-backend:latest
 ```
 
 ### 3.2 Update ConfigMap with AWS Endpoints
@@ -230,7 +230,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: item-kafka-config
-  namespace: item-kafka-poc
+  namespace: webflux-kafka-poc
 data:
   # AWS RDS MySQL (replace with your endpoint)
   spring_mysql_jdbcUrl: "jdbc:mysql://item-kafka-mysql.c9akciq32.us-east-1.rds.amazonaws.com:3306/item_poc?useSSL=true&allowPublicKeyRetrieval=false"
@@ -261,7 +261,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: item-kafka-secrets
-  namespace: item-kafka-poc
+  namespace: webflux-kafka-poc
 type: Opaque
 stringData:
   mysql_password: "YourSecurePassword123!"
@@ -285,7 +285,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: item-kafka-ui
-  namespace: item-kafka-poc
+  namespace: webflux-kafka-poc
 spec:
   replicas: 2
   selector:
@@ -336,7 +336,7 @@ kubectl apply -f k8s/namespace.yaml
 kubectl apply -f k8s/backend-secret.yaml
 
 # Verify
-kubectl get secrets -n item-kafka-poc
+kubectl get secrets -n webflux-kafka-poc
 ```
 
 ### 4.2 Deploy Backend
@@ -358,10 +358,10 @@ kubectl apply -f k8s/backend-hpa.yaml
 kubectl apply -f k8s/backend-ingress-alb.yaml
 
 # Wait for pods
-kubectl get pods -n item-kafka-poc -w
+kubectl get pods -n webflux-kafka-poc -w
 
 # Check logs
-kubectl logs -n item-kafka-poc -l app=item-kafka-backend --tail=50 -f
+kubectl logs -n webflux-kafka-poc -l app=webflux-kafka-backend --tail=50 -f
 ```
 
 ### 4.3 Deploy Frontend
@@ -380,7 +380,7 @@ kubectl apply -f k8s/frontend-hpa.yaml
 kubectl apply -f k8s/frontend-ingress-alb.yaml
 
 # Wait for pods
-kubectl get pods -n item-kafka-poc -w
+kubectl get pods -n webflux-kafka-poc -w
 ```
 
 ---
@@ -391,7 +391,7 @@ kubectl get pods -n item-kafka-poc -w
 
 ```powershell
 # Get ALB endpoints
-kubectl get ingress -n item-kafka-poc
+kubectl get ingress -n webflux-kafka-poc
 
 # Example output:
 # NAME                   CLASS   HOSTS   ADDRESS                                          PORTS
@@ -475,23 +475,23 @@ SOURCE sql-scripts/03_mysql_item_sink_and_consumed_tables.sql;
 
 ```powershell
 # All pods running
-kubectl get pods -n item-kafka-poc
+kubectl get pods -n webflux-kafka-poc
 
 # Backend pod logs
-kubectl logs -n item-kafka-poc -l app=item-kafka-backend --tail=50
+kubectl logs -n webflux-kafka-poc -l app=webflux-kafka-backend --tail=50
 
 # Frontend pod logs
-kubectl logs -n item-kafka-poc -l app=item-kafka-ui --tail=50
+kubectl logs -n webflux-kafka-poc -l app=item-kafka-ui --tail=50
 
 # Check HPA status
-kubectl get hpa -n item-kafka-poc
+kubectl get hpa -n webflux-kafka-poc
 ```
 
 ### 7.2 Test Backend API
 
 ```powershell
 # Get backend service endpoint
-$BACKEND_URL = kubectl get svc -n item-kafka-poc item-kafka-backend -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
+$BACKEND_URL = kubectl get svc -n webflux-kafka-poc webflux-kafka-backend -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
 
 # Health check
 curl http://$BACKEND_URL:8082/actuator/health
@@ -529,10 +529,10 @@ aws logs tail /aws/containerinsights/item-kafka-eks/application --follow
 
 ```powershell
 # Backend
-kubectl scale deployment/item-kafka-backend --replicas=4 -n item-kafka-poc
+kubectl scale deployment/webflux-kafka-backend --replicas=4 -n webflux-kafka-poc
 
 # Frontend
-kubectl scale deployment/item-kafka-ui --replicas=3 -n item-kafka-poc
+kubectl scale deployment/item-kafka-ui --replicas=3 -n webflux-kafka-poc
 ```
 
 ### 8.3 Monitor Resources
@@ -542,7 +542,7 @@ kubectl scale deployment/item-kafka-ui --replicas=3 -n item-kafka-poc
 kubectl top nodes
 
 # Pod usage
-kubectl top pods -n item-kafka-poc
+kubectl top pods -n webflux-kafka-poc
 ```
 
 ---
@@ -551,7 +551,7 @@ kubectl top pods -n item-kafka-poc
 
 ```powershell
 # Delete Kubernetes resources
-kubectl delete namespace item-kafka-poc
+kubectl delete namespace webflux-kafka-poc
 
 # Delete EKS cluster (this removes all resources in VPC)
 eksctl delete cluster --name item-kafka-eks --region af-south-1
@@ -564,7 +564,7 @@ aws rds delete-db-instance --db-instance-identifier item-kafka-sqlserver --skip-
 aws kafka delete-cluster --cluster-arn <cluster-arn> --region af-south-1
 
 # Delete ECR repositories
-aws ecr delete-repository --repository-name item-kafka-backend --region af-south-1 --force
+aws ecr delete-repository --repository-name webflux-kafka-backend --region af-south-1 --force
 aws ecr delete-repository --repository-name item-kafka-ui --region af-south-1 --force
 ```
 
@@ -629,7 +629,7 @@ aws ecr delete-repository --repository-name item-kafka-ui --region af-south-1 --
 | Backend can't reach MSK | Check security group ingress rules (port 9092) |
 | Frontend API calls fail | Verify `VITE_API_BASE_URL` env var, check CORS |
 | Database connection error | Verify RDS endpoint, security group, credentials |
-| Images not found in ECR | Verify push succeeded: `aws ecr describe-images --repository-name item-kafka-backend` |
+| Images not found in ECR | Verify push succeeded: `aws ecr describe-images --repository-name webflux-kafka-backend` |
 | Ingress not showing IP | Wait 2-3 min, ALB provisioning takes time |
 
 ---
@@ -646,4 +646,5 @@ aws ecr delete-repository --repository-name item-kafka-ui --region af-south-1 --
 
 **Last Updated:** August 8, 2026  
 **Tested on:** Windows PowerShell 5.1, eksctl 0.180+, kubectl 1.29, Kubernetes 1.29
+
 

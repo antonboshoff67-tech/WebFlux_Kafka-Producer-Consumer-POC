@@ -1,14 +1,15 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: item-kafka-backend
-  namespace: item-kafka-poc
+  name: webflux-kafka-backend
+  namespace: webflux-kafka-poc
 spec:
   type: ClusterIP
   selector:
-    app: item-kafka-backend
+    app: webflux-kafka-backend
   ports:
     - name: http
       port: 8082
       targetPort: 8082
+
 

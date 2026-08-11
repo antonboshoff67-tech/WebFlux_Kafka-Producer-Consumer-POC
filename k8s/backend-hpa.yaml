@@ -1,13 +1,13 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: item-kafka-backend-hpa
-  namespace: item-kafka-poc
+  name: webflux-kafka-backend-hpa
+  namespace: webflux-kafka-poc
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: item-kafka-backend
+    name: webflux-kafka-backend
   minReplicas: 2
   maxReplicas: 10
   metrics:
@@ -17,4 +17,5 @@ spec:
         target:
           type: Utilization
           averageUtilization: 70
+
 

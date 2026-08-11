@@ -29,12 +29,12 @@ For this project, a typical AWS architecture is:
 ## 1) Create ECR repository and push image
 
 ```powershell
-aws ecr create-repository --repository-name item-kafka-backend --region af-south-1
+aws ecr create-repository --repository-name webflux-kafka-backend --region af-south-1
 aws ecr get-login-password --region af-south-1 | docker login --username AWS --password-stdin 123456789012.dkr.ecr.af-south-1.amazonaws.com
 
-docker build -t item-kafka-backend:latest .
-docker tag item-kafka-backend:latest 123456789012.dkr.ecr.af-south-1.amazonaws.com/item-kafka-backend:latest
-docker push 123456789012.dkr.ecr.af-south-1.amazonaws.com/item-kafka-backend:latest
+docker build -t webflux-kafka-backend:latest .
+docker tag webflux-kafka-backend:latest 123456789012.dkr.ecr.af-south-1.amazonaws.com/webflux-kafka-backend:latest
+docker push 123456789012.dkr.ecr.af-south-1.amazonaws.com/webflux-kafka-backend:latest
 ```
 
 Update the image in `k8s/backend-deployment.yaml`.
@@ -94,16 +94,16 @@ kubectl apply -f k8s/backend-ingress-alb.yaml
 ## 6) Validate deployment
 
 ```powershell
-kubectl get pods -n item-kafka-poc
-kubectl get svc -n item-kafka-poc
-kubectl get hpa -n item-kafka-poc
-kubectl logs -n item-kafka-poc deploy/item-kafka-backend --tail=200
+kubectl get pods -n webflux-kafka-poc
+kubectl get svc -n webflux-kafka-poc
+kubectl get hpa -n webflux-kafka-poc
+kubectl logs -n webflux-kafka-poc deploy/webflux-kafka-backend --tail=200
 ```
 
 If using ingress:
 
 ```powershell
-kubectl get ingress -n item-kafka-poc
+kubectl get ingress -n webflux-kafka-poc
 ```
 
 ## 7) Autoscaling behavior
@@ -126,4 +126,5 @@ ECS/Fargate quick start pattern:
 3. Create ECS service (Fargate launch type) behind an ALB.
 
 Both are valid; EKS manifests in this repo target Kubernetes.
+
 

@@ -129,6 +129,7 @@ Use these docs:
 - `EKS_README.md`
 - `AWS_README_START_HERE.md`
 - `AWS_QUICKSTART_CHEATSHEET.md`
+- `WEBFLUX_TUTORIAL_GUIDE.md`
 - `k8s/` manifests
 
 ## 9) Useful config variables

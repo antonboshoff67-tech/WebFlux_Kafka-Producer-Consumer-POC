@@ -29,6 +29,7 @@ You can run this backend in the same 3 modes as the original project:
 ## Start here
 
 - `DEVELOPER_GUIDE.md` - full WebFlux-focused setup + Mono/Flux explanation + non-blocking I/O guide
+- `WEBFLUX_TUTORIAL_GUIDE.md` - class-by-class WebFlux study guide and line-by-line walkthrough
 - `API_DOCUMENTATION.md` - endpoint reference and curl examples
 - `ARCHITECTURE.md` - end-to-end architecture and flow
 

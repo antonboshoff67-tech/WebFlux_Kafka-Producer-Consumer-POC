@@ -1,29 +1,29 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: item-kafka-backend
-  namespace: item-kafka-poc
+  name: webflux-kafka-backend
+  namespace: webflux-kafka-poc
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: item-kafka-backend
+      app: webflux-kafka-backend
   template:
     metadata:
       labels:
-        app: item-kafka-backend
+        app: webflux-kafka-backend
     spec:
       containers:
-        - name: item-kafka-backend
-          image: 123456789012.dkr.ecr.af-south-1.amazonaws.com/item-kafka-backend:latest
+        - name: webflux-kafka-backend
+          image: 123456789012.dkr.ecr.af-south-1.amazonaws.com/webflux-kafka-backend:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8082
           envFrom:
             - configMapRef:
-                name: item-kafka-backend-config
+                name: webflux-kafka-backend-config
             - secretRef:
-                name: item-kafka-backend-secret
+                name: webflux-kafka-backend-secret
           readinessProbe:
             httpGet:
               path: /agent/swagger-ui.html
@@ -43,4 +43,5 @@ spec:
             limits:
               cpu: "1000m"
               memory: "1024Mi"
+
 
