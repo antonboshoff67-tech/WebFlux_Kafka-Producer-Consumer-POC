@@ -89,3 +89,11 @@ docker compose -f docker-compose.full.yml up -d --build
 - `docker-compose.kafka.yml`
 - `k8s/`
 - `sql-scripts/`
+
+## 📜 License
+
+**© 2026 Anton Boshoff. All Rights Reserved.**
+
+This repository is public for **portfolio/demonstration purposes only** — it is **not** open-source. See the [`LICENSE`](./LICENSE) file for full terms. In short: you're welcome to view/clone it to see how it works, but copying, redistributing, reselling, or building derivative products from this code requires the Author's written permission. Recruiters/hiring managers: browse away — that's exactly what this is here for!
+
+

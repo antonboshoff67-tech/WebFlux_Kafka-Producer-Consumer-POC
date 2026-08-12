@@ -17,6 +17,21 @@
     <name>webflux-kafka-poc</name>
     <description>Spring Boot WebFlux Reactive Kafka Producer/Consumer + Flink POC</description>
 
+    <licenses>
+        <license>
+            <name>Proprietary - All Rights Reserved (see LICENSE file)</name>
+            <url>https://github.com/antonboshoff67-tech/WebFlux_Kafka-Producer-Consumer-POC/blob/main/LICENSE</url>
+            <distribution>manual</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Anton Boshoff</name>
+            <url>https://github.com/antonboshoff67-tech</url>
+        </developer>
+    </developers>
+
     <properties>
         <java.version>17</java.version>
         <flink.version>1.20.1</flink.version>
