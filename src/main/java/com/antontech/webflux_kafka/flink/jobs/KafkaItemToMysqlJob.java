@@ -1,4 +1,4 @@
-package com.antontech.webflux_kafka.flink.jobs;
+﻿package com.antontech.webflux_kafka.flink.jobs;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -93,8 +93,8 @@ public class KafkaItemToMysqlJob
                 "primary_size_range_id, product_group_scaling, product_id, reference_item_ind, scent_dsc, scent_group_id, " +
                 "scent_id, scent_range_id, season_id, secondary_size_dsc, secondary_size_group_id, secondary_size_id, " +
                 "secondary_size_range_id, sellable_ind, short_dsc, simple_pack_ind, size_profile_ind, standard_uom, " +
-                "status, sub_group_id, subclass_id, supplier_no, to_temp, tran_ind, tran_level, ww_colour, ww_size, " +
-                "ww_static_mass, ww_style, ww_style_colour, variable_weight_ind, loose_prod_ind, item_scale_ind, " +
+                "status, sub_group_id, subclass_id, supplier_no, to_temp, tran_ind, tran_level, std_colour, std_size, " +
+                "std_static_mass, std_style, std_style_colour, variable_weight_ind, loose_prod_ind, item_scale_ind, " +
                 "legacy_sku_no, legacy_random_mass_ind, legacy_vat_ind, action_ind, extract_seq_no, vat_cde, vat_rate, " +
                 "source_system, vpn_no, ext_ref_no, item_long_desc, segregation_ind, prod_class, last_update_dte) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, " +
@@ -116,7 +116,7 @@ public class KafkaItemToMysqlJob
                 "primary_size_range_id = VALUES(primary_size_range_id), product_group_scaling = VALUES(product_group_scaling), " +
                 "product_id = VALUES(product_id), reference_item_ind = VALUES(reference_item_ind), scent_dsc = VALUES(scent_dsc), " +
                 "scent_group_id = VALUES(scent_group_id), scent_id = VALUES(scent_id), scent_range_id = VALUES(scent_range_id), " +
-                "season_id = VALUES(season_id), secondary_size_dsc = VALUES(secondary_size_dsc), secondary_size_group_id = VALUES(secondary_size_group_id), secondary_size_id = VALUES(secondary_size_id), secondary_size_range_id = VALUES(secondary_size_range_id), sellable_ind = VALUES(sellable_ind), short_dsc = VALUES(short_dsc), simple_pack_ind = VALUES(simple_pack_ind), size_profile_ind = VALUES(size_profile_ind), standard_uom = VALUES(standard_uom), status = VALUES(status), sub_group_id = VALUES(sub_group_id), subclass_id = VALUES(subclass_id), supplier_no = VALUES(supplier_no), to_temp = VALUES(to_temp), tran_ind = VALUES(tran_ind), tran_level = VALUES(tran_level), ww_colour = VALUES(ww_colour), ww_size = VALUES(ww_size), ww_static_mass = VALUES(ww_static_mass), ww_style = VALUES(ww_style), ww_style_colour = VALUES(ww_style_colour), variable_weight_ind = VALUES(variable_weight_ind), loose_prod_ind = VALUES(loose_prod_ind), item_scale_ind = VALUES(item_scale_ind), legacy_sku_no = VALUES(legacy_sku_no), legacy_random_mass_ind = VALUES(legacy_random_mass_ind), legacy_vat_ind = VALUES(legacy_vat_ind), action_ind = VALUES(action_ind), extract_seq_no = VALUES(extract_seq_no), vat_cde = VALUES(vat_cde), vat_rate = VALUES(vat_rate), source_system = VALUES(source_system), vpn_no = VALUES(vpn_no), ext_ref_no = VALUES(ext_ref_no), item_long_desc = VALUES(item_long_desc), segregation_ind = VALUES(segregation_ind), prod_class = VALUES(prod_class), last_update_dte = VALUES(last_update_dte)";
+                "season_id = VALUES(season_id), secondary_size_dsc = VALUES(secondary_size_dsc), secondary_size_group_id = VALUES(secondary_size_group_id), secondary_size_id = VALUES(secondary_size_id), secondary_size_range_id = VALUES(secondary_size_range_id), sellable_ind = VALUES(sellable_ind), short_dsc = VALUES(short_dsc), simple_pack_ind = VALUES(simple_pack_ind), size_profile_ind = VALUES(size_profile_ind), standard_uom = VALUES(standard_uom), status = VALUES(status), sub_group_id = VALUES(sub_group_id), subclass_id = VALUES(subclass_id), supplier_no = VALUES(supplier_no), to_temp = VALUES(to_temp), tran_ind = VALUES(tran_ind), tran_level = VALUES(tran_level), std_colour = VALUES(std_colour), std_size = VALUES(std_size), std_static_mass = VALUES(std_static_mass), std_style = VALUES(std_style), std_style_colour = VALUES(std_style_colour), variable_weight_ind = VALUES(variable_weight_ind), loose_prod_ind = VALUES(loose_prod_ind), item_scale_ind = VALUES(item_scale_ind), legacy_sku_no = VALUES(legacy_sku_no), legacy_random_mass_ind = VALUES(legacy_random_mass_ind), legacy_vat_ind = VALUES(legacy_vat_ind), action_ind = VALUES(action_ind), extract_seq_no = VALUES(extract_seq_no), vat_cde = VALUES(vat_cde), vat_rate = VALUES(vat_rate), source_system = VALUES(source_system), vpn_no = VALUES(vpn_no), ext_ref_no = VALUES(ext_ref_no), item_long_desc = VALUES(item_long_desc), segregation_ind = VALUES(segregation_ind), prod_class = VALUES(prod_class), last_update_dte = VALUES(last_update_dte)";
     }
 
     /**
@@ -218,11 +218,11 @@ public class KafkaItemToMysqlJob
                                     ps.setInt(64, item.getToTemp());
                                     ps.setString(65, item.getTranInd());
                                     ps.setInt(66, item.getTranLevel());
-                                    ps.setString(67, item.getWwColour());
-                                    ps.setString(68, item.getWwSize());
-                                    ps.setBigDecimal(69, item.getWwStaticMass());
-                                    ps.setString(70, item.getWwStyle());
-                                    ps.setString(71, item.getWwStyleColour());
+                                    ps.setString(67, item.getStdColour());
+                                    ps.setString(68, item.getStdSize());
+                                    ps.setBigDecimal(69, item.getStdStaticMass());
+                                    ps.setString(70, item.getStdStyle());
+                                    ps.setString(71, item.getStdStyleColour());
                                     ps.setString(72, String.valueOf(item.getVariableWeightInd()));
                                     ps.setString(73, String.valueOf(item.getLooseProdInd()));
                                     ps.setString(74, String.valueOf(item.getItemScaleInd()));
@@ -353,11 +353,11 @@ public class KafkaItemToMysqlJob
             item.setToTemp(item.getToTemp() != null ? item.getToTemp() : 0);
             item.setTranInd(item.getTranInd() != null ? item.getTranInd() : "N");
             item.setTranLevel(item.getTranLevel() != null ? item.getTranLevel() : 0);
-            item.setWwColour(item.getWwColour() != null ? item.getWwColour() : "UNKNOWN");
-            item.setWwSize(item.getWwSize() != null ? item.getWwSize() : "UNKNOWN");
-            item.setWwStaticMass(item.getWwStaticMass() != null ? item.getWwStaticMass() : BigDecimal.ZERO);
-            item.setWwStyle(item.getWwStyle() != null ? item.getWwStyle() : UUID.randomUUID().toString());
-            item.setWwStyleColour(item.getWwStyleColour() != null ? item.getWwStyleColour() : "UNKNOWN");
+            item.setStdColour(item.getStdColour() != null ? item.getStdColour() : "UNKNOWN");
+            item.setStdSize(item.getStdSize() != null ? item.getStdSize() : "UNKNOWN");
+            item.setStdStaticMass(item.getStdStaticMass() != null ? item.getStdStaticMass() : BigDecimal.ZERO);
+            item.setStdStyle(item.getStdStyle() != null ? item.getStdStyle() : UUID.randomUUID().toString());
+            item.setStdStyleColour(item.getStdStyleColour() != null ? item.getStdStyleColour() : "UNKNOWN");
             item.setLegacySkuNo(item.getLegacySkuNo() != null ? item.getLegacySkuNo() : "N/A");
             item.setVariableWeightInd(item.getVariableWeightInd() != null ? item.getVariableWeightInd() : 'N');
             item.setLooseProdInd(item.getLooseProdInd() != null ? item.getLooseProdInd() : 'N');

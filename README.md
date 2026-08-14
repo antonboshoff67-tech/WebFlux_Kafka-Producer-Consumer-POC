@@ -90,6 +90,15 @@ docker compose -f docker-compose.full.yml up -d --build
 - `k8s/`
 - `sql-scripts/`
 
+## Security notes for sharing this project
+
+- Do not commit real JWT keys, keystore passwords, truststore passwords, or database passwords.
+- Keep your actual secrets out of source control entirely. Recommended options depending on where the app runs:
+  - **Local/dev machine:** environment variables, or a local `.env`/`application-local.yml` file excluded from Git.
+  - **Shared server (non-cloud) environments:** a **Spring Cloud Config Server** (backed by an encrypted/private Git repo or Vault), or a secrets file mounted outside the deployable artifact and loaded via `spring.config.import`.
+  - **AWS/cloud deployments:** **AWS Secrets Manager** (or Parameter Store for less-sensitive config), retrieved via the Spring Cloud AWS Secrets Manager integration — see `EKS_README.md`/`AWS_*` docs.
+- All hostnames, database names, and system/source identifiers in this repo's docs and seed data are **fictitious placeholders** created for this portfolio demo and do not reference any real company's infrastructure.
+
 ## 📜 License
 
 **© 2026 Anton Boshoff. All Rights Reserved.**

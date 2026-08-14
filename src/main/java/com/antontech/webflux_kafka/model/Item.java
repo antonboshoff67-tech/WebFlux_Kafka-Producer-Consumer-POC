@@ -1,4 +1,4 @@
-package com.antontech.webflux_kafka.model;
+﻿package com.antontech.webflux_kafka.model;
 
 import com.google.gson.annotations.SerializedName;
 import org.springframework.data.annotation.Id;
@@ -299,25 +299,25 @@ public class Item implements Serializable {
     @SerializedName("tranLevel")
     private Integer tranLevel;
 
-    @Column("ww_colour")
-    @SerializedName("wwColour")
-    private String wwColour;
+    @Column("std_colour")
+    @SerializedName("stdColour")
+    private String stdColour;
 
-    @Column("ww_size")
-    @SerializedName("wwSize")
-    private String wwSize;
+    @Column("std_size")
+    @SerializedName("stdSize")
+    private String stdSize;
 
-    @Column("ww_static_mass")
-    @SerializedName("wwStaticMass")
-    private BigDecimal wwStaticMass;
+    @Column("std_static_mass")
+    @SerializedName("stdStaticMass")
+    private BigDecimal stdStaticMass;
 
-    @Column("ww_style")
-    @SerializedName("wwStyle")
-    private String wwStyle;
+    @Column("std_style")
+    @SerializedName("stdStyle")
+    private String stdStyle;
 
-    @Column("ww_style_colour")
-    @SerializedName("wwStyleColour")
-    private String wwStyleColour;
+    @Column("std_style_colour")
+    @SerializedName("stdStyleColour")
+    private String stdStyleColour;
 
     @Column("variable_weight_ind")
     @SerializedName("variableWeightInd")
@@ -521,16 +521,16 @@ public class Item implements Serializable {
     public void setTranInd(String tranInd) { this.tranInd = tranInd; }
     public Integer getTranLevel() { return tranLevel; }
     public void setTranLevel(Integer tranLevel) { this.tranLevel = tranLevel; }
-    public String getWwColour() { return wwColour; }
-    public void setWwColour(String wwColour) { this.wwColour = wwColour; }
-    public String getWwSize() { return wwSize; }
-    public void setWwSize(String wwSize) { this.wwSize = wwSize; }
-    public BigDecimal getWwStaticMass() { return wwStaticMass; }
-    public void setWwStaticMass(BigDecimal wwStaticMass) { this.wwStaticMass = wwStaticMass; }
-    public String getWwStyle() { return wwStyle; }
-    public void setWwStyle(String wwStyle) { this.wwStyle = wwStyle; }
-    public String getWwStyleColour() { return wwStyleColour; }
-    public void setWwStyleColour(String wwStyleColour) { this.wwStyleColour = wwStyleColour; }
+    public String getStdColour() { return stdColour; }
+    public void setStdColour(String stdColour) { this.stdColour = stdColour; }
+    public String getStdSize() { return stdSize; }
+    public void setStdSize(String stdSize) { this.stdSize = stdSize; }
+    public BigDecimal getStdStaticMass() { return stdStaticMass; }
+    public void setStdStaticMass(BigDecimal stdStaticMass) { this.stdStaticMass = stdStaticMass; }
+    public String getStdStyle() { return stdStyle; }
+    public void setStdStyle(String stdStyle) { this.stdStyle = stdStyle; }
+    public String getStdStyleColour() { return stdStyleColour; }
+    public void setStdStyleColour(String stdStyleColour) { this.stdStyleColour = stdStyleColour; }
     public Character getVariableWeightInd() { return variableWeightInd; }
     public void setVariableWeightInd(Character variableWeightInd) { this.variableWeightInd = variableWeightInd; }
     public Character getLooseProdInd() { return looseProdInd; }

@@ -1,4 +1,4 @@
-package com.antontech.webflux_kafka.flink.jobs;
+﻿package com.antontech.webflux_kafka.flink.jobs;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -214,11 +214,11 @@ public class MssqlItemToKafkaJob
         item.setToTemp(rs.getInt("to_temp"));
         item.setTranInd(rs.getString("tran_ind"));
         item.setTranLevel(rs.getInt("tran_level"));
-        item.setWwColour(rs.getString("ww_colour"));
-        item.setWwSize(rs.getString("ww_size"));
-        item.setWwStaticMass(rs.getBigDecimal("ww_static_mass"));
-        item.setWwStyle(rs.getString("ww_style"));
-        item.setWwStyleColour(rs.getString("ww_style_colour"));
+        item.setStdColour(rs.getString("std_colour"));
+        item.setStdSize(rs.getString("std_size"));
+        item.setStdStaticMass(rs.getBigDecimal("std_static_mass"));
+        item.setStdStyle(rs.getString("std_style"));
+        item.setStdStyleColour(rs.getString("std_style_colour"));
 
         item.setVariableWeightInd(rs.getString("variable_weight_ind") != null ? rs.getString("variable_weight_ind").charAt(0) : null);
         item.setLooseProdInd(rs.getString("loose_prod_ind") != null ? rs.getString("loose_prod_ind").charAt(0) : null);

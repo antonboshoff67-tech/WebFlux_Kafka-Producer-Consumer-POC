@@ -1,4 +1,4 @@
--- ============================================================================
+﻿-- ============================================================================
 -- MySQL: SINK tables written to by the Kafka -> Apache Flink pipeline
 -- ----------------------------------------------------------------------------
 -- Two tables are created here:
@@ -95,11 +95,11 @@ CREATE TABLE IF NOT EXISTS ITEM (
     to_temp                   INT,
     tran_ind                  VARCHAR(1),
     tran_level                INT,
-    ww_colour                 VARCHAR(32),
-    ww_size                   VARCHAR(32),
-    ww_static_mass            DECIMAL(18,4),
-    ww_style                  VARCHAR(64),
-    ww_style_colour           VARCHAR(64),
+    std_colour                 VARCHAR(32),
+    std_size                   VARCHAR(32),
+    std_static_mass            DECIMAL(18,4),
+    std_style                  VARCHAR(64),
+    std_style_colour           VARCHAR(64),
     variable_weight_ind       CHAR(1),
     loose_prod_ind            CHAR(1),
     item_scale_ind            CHAR(1),

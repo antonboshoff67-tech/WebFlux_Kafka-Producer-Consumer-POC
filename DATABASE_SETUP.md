@@ -1,4 +1,4 @@
-# Database Setup
+﻿# Database Setup
 
 This project touches **two** databases:
 
@@ -42,7 +42,7 @@ sqlcmd -S localhost -E -i sql-scripts\01_mssql_item_seed_200.sql
 The original connection string used by this POC was:
 
 ```
-jdbc:sqlserver://C21SQL04\AMOS.1:1433;databaseName=CS_Caissa_Central_Master_Data;integratedSecurity=true;encrypt=false;
+jdbc:sqlserver://SQLSERVER01\DEVINSTANCE:1433;databaseName=CS_Demo_Central_Master_Data;integratedSecurity=true;encrypt=false;
 ```
 
 `integratedSecurity=true` tells the Microsoft JDBC driver to authenticate using the **Windows account the Java process is running as**, instead of a SQL username/password embedded in the connection string. Under the hood this uses SSPI/Kerberos (or NTLM as a fallback) to negotiate credentials with SQL Server - no password ever appears in configuration.
@@ -160,11 +160,11 @@ BEGIN
         to_temp                   INT            NULL,
         tran_ind                  NVARCHAR(1)    NULL,
         tran_level                INT            NULL,
-        ww_colour                 NVARCHAR(32)   NULL,
-        ww_size                   NVARCHAR(32)   NULL,
-        ww_static_mass            DECIMAL(18,4)  NULL,
-        ww_style                  NVARCHAR(64)   NULL,
-        ww_style_colour           NVARCHAR(64)   NULL,
+        std_colour                 NVARCHAR(32)   NULL,
+        std_size                   NVARCHAR(32)   NULL,
+        std_static_mass            DECIMAL(18,4)  NULL,
+        std_style                  NVARCHAR(64)   NULL,
+        std_style_colour           NVARCHAR(64)   NULL,
         variable_weight_ind       CHAR(1)        NULL,
         loose_prod_ind            CHAR(1)        NULL,
         item_scale_ind            CHAR(1)        NULL,
@@ -278,11 +278,11 @@ CREATE TABLE IF NOT EXISTS ITEM (
     to_temp                   INT,
     tran_ind                  VARCHAR(1),
     tran_level                INT,
-    ww_colour                 VARCHAR(32),
-    ww_size                   VARCHAR(32),
-    ww_static_mass            DECIMAL(18,4),
-    ww_style                  VARCHAR(64),
-    ww_style_colour           VARCHAR(64),
+    std_colour                 VARCHAR(32),
+    std_size                   VARCHAR(32),
+    std_static_mass            DECIMAL(18,4),
+    std_style                  VARCHAR(64),
+    std_style_colour           VARCHAR(64),
     variable_weight_ind       CHAR(1),
     loose_prod_ind            CHAR(1),
     item_scale_ind            CHAR(1),
@@ -386,11 +386,11 @@ CREATE TABLE IF NOT EXISTS ITEM (
     to_temp                   INT,
     tran_ind                  VARCHAR(1),
     tran_level                INT,
-    ww_colour                 VARCHAR(32),
-    ww_size                   VARCHAR(32),
-    ww_static_mass            DECIMAL(18,4),
-    ww_style                  VARCHAR(64),
-    ww_style_colour           VARCHAR(64),
+    std_colour                 VARCHAR(32),
+    std_size                   VARCHAR(32),
+    std_static_mass            DECIMAL(18,4),
+    std_style                  VARCHAR(64),
+    std_style_colour           VARCHAR(64),
     variable_weight_ind       CHAR(1),
     loose_prod_ind            CHAR(1),
     item_scale_ind            CHAR(1),
